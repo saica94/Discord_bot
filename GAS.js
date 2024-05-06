@@ -1,7 +1,6 @@
 const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
 const sheet_id = SpreadsheetApp.getActiveSpreadsheet().getId();
-const sheet_name = spreadsheet.getSheetByName("list");
-console.log(sheet_id);
+const sheet_name = 'list'
 const ss = SpreadsheetApp.openById(sheet_id);
 
 function doPost(e){
