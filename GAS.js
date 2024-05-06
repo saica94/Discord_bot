@@ -1,4 +1,4 @@
-const sheet_id = '1I9MTk5r3jS67idHT5dmfF62AAMPqm46rfXHyKwpi1ck'
+const sheet_id = '****************'
 const sheet_name = 'シート1';
 const ss = SpreadsheetApp.openById(sheet_id);
 
