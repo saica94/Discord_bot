@@ -1,5 +1,7 @@
-const sheet_id = '1I9MTk5r3jS67idHT5dmfF62AAMPqm46rfXHyKwpi1ck'
-const sheet_name = 'シート1';
+const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+const sheet_id = SpreadsheetApp.getActiveSpreadsheet().getId();
+const sheet_name = spreadsheet.getSheetByName("list");
+console.log(sheet_id);
 const ss = SpreadsheetApp.openById(sheet_id);
 
 function doPost(e){
