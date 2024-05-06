@@ -4,6 +4,8 @@ const {
     ModalBuilder,
     TextInputBuilder,
     TextInputStyle,
+    StringSelectMenuBuilder,
+    StringSelectMenuOptionBuilder,
     SlashCommandBuilder,
     ActionRow,
 } = require('discord.js');
@@ -21,6 +23,7 @@ module.exports = {
                 .setCustomId("myModal")
                 .setTitle("Modal");
 
+            // モーダルを構成するコンポーネントを定義
             // モーダルを構成するコンポーネントを定義
             const teamnameInput = new TextInputBuilder()
                 .setCustomId("teamnameInput")

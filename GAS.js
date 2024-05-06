@@ -23,10 +23,11 @@ function doPostProxy(e){
 }
 
 function postJsonToSpreadSheet(arrObj, targetSheet){
+    const splastRow = targetSheet.getLastRow();
     // 受け付けるJSONは [{key1:data1, key2:data2}]
     // オブジェクトが配列になっている形式
     // オブジェクトのキーがスプレッドシートの項目名として1行目に入力される
-    targetSheet.clear();
+    // targetSheet.clear();
     // タイトル行書き込み
     const keys = [Object.keys(arrObj[0])];
     targetSheet.getRange(1, 1, 1, keys[0].length).setValues(keys);
@@ -37,5 +38,5 @@ function postJsonToSpreadSheet(arrObj, targetSheet){
     });
     const lastColumn = arrToWrite[0].length;
     const lastRow = arrToWrite.length;
-    targetSheet.getRange(2, 1, lastRow, lastColumn).setValues(arrToWrite);
+    targetSheet.getRange(splastRow + 1, 1, lastRow, lastColumn).setValues(arrToWrite);
 }
