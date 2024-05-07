@@ -2,6 +2,7 @@ const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
 const sheet_id = SpreadsheetApp.getActiveSpreadsheet().getId();
 const sheet_name = 'list'
 const ss = SpreadsheetApp.openById(sheet_id);
+const sheet = ss.getSheetByName(sheet_name);
 
 function doPost(e){
     try {
@@ -37,7 +38,67 @@ function postJsonToSpreadSheet(arrObj, targetSheet){
         for(const key of keys[0]) { arr.push(obj[key]); }
         return arr;
     });
+
     const lastColumn = arrToWrite[0].length;
     const lastRow = arrToWrite.length;
-    targetSheet.getRange(splastRow + 1, 1, lastRow, lastColumn).setValues(arrToWrite);
+
+    const targetString = arrObj[0].userId;
+    const data = sheet.getDataRange().getValues();
+    let matchingRow = -1;
+
+    for(let i=0; i< data.length; i++){
+        let row = data[i];
+        
+        // 特定の列(例えばA列)を検索対象とする場合
+        if(row[0].toString().includes(targetString)){
+            matchingRow = i + 1;
+            break;
+            //rows.push(row);
+        }
+    }
+
+        // 特定の行を検索対象とする場合
+        // if(row.join().includes(targetString)){
+        //     rows.push(row);
+        // }
+    
+    if(matchingRow !== -1){
+        targetSheet.getRange(matchingRow, 1, 1, lastColumn).setValues(arrToWrite);
+    } else {
+        // getRange(横(行),縦(列),縦数(行数),横数(列数))
+        targetSheet.getRange(splastRow + 1, 1, lastRow, lastColumn).setValues(arrToWrite);
+    }
+}
+
+function doGet(e){
+    try {
+        // ユーザーIDが含まれるクエリパラメータを取得
+        const userId = e.parameter.userId;
+
+        // データを検索して取得
+        const dataRange = sheet.getDataRange();
+        const values = dataRange.getValues();
+        const headers = values[0];
+        const userIdIndex = headers.indexOf('userId');
+        const userData = values.find(row => row[userIdIndex] === userId);
+
+        // レスポンス用のデータを作成
+        const response = {
+            status: "success",
+            data: userData,
+        };
+
+        // JSON形式でレスポンスを返す
+        return ContentService.createTextOutput(JSON.stringify(response))
+            .setMimeType(ContentService.MimeType.JSON);
+    }catch(error){
+        console.error('Error:', error.message);
+
+        const response = {
+            status: 'error',
+            message: error.message,
+        };
+        return ContentService.createTextOutput(JSON.stringify(response))
+            .setMimeType(ContentService.MimeType.JSON);
+    }
 }
